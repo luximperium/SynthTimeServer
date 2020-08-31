@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
-const User = require('../db').import('../models/users');
+const Users = require('../db').import('../models/users');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -16,7 +16,7 @@ router.get('/practice', function(req, res){
 //Register User Route
 router.post('/register', function (req, res) {
 
-    User.create({
+    Users.create({
         email: req.body.user.email,
         username: req.body.user.username,
         password: bcrypt.hashSync(req.body.user.password, 13),
@@ -25,11 +25,11 @@ router.post('/register', function (req, res) {
         biography: req.body.user.biography,
         profilePicSrc: req.body.user.profilePicSrc,
     }) .then (
-        function createSuccess(user) {
-            let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
+        function createSuccess(users) {
+            let token = jwt.sign({id: users.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
 
             res.json({
-                user: user,
+                users: users,
                 message: 'User successfully created!', 
                 sessionToken: token
             });
@@ -39,11 +39,11 @@ router.post('/register', function (req, res) {
 
 //Login User Route
 router.post('/login', function(req, res) {
-    User.findOne({
+    Users.findOne({
         where: {
             username: req.body.users.username
         }
-    })  .then (function loginSuccess(user) {
+    })  .then (function loginSuccess(users) {
         if (users) {
             bcrypt.compare(req.body.users.password, users.password, function (err, matches) {
                 if (matches) {
