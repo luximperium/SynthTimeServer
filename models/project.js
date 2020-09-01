@@ -16,8 +16,44 @@ module.exports = (sequelize, DataTypes) => {
         check4: {
             type: DataTypes.BOOLEAN
         },
+        check5: {
+            type: DataTypes.BOOLEAN
+        },
+        check6: {
+            type: DataTypes.BOOLEAN
+        },
+        check7: {
+            type: DataTypes.BOOLEAN
+        },
+        check8: {
+            type: DataTypes.BOOLEAN
+        },
+        check1Note: {
+            type: DataTypes.STRING
+        },
+        check2Note: {
+            type: DataTypes.STRING
+        },
+        check3Note: {
+            type: DataTypes.STRING
+        },
+        check4Note: {
+            type: DataTypes.STRING
+        },
+        check5Note: {
+            type: DataTypes.STRING
+        },
+        check6Note: {
+            type: DataTypes.STRING
+        },
+        check7Note: {
+            type: DataTypes.STRING
+        },
+        check8Note: {
+            type: DataTypes.STRING
+        },
         author: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING
         },
         owner: {
             type: DataTypes.INTEGER

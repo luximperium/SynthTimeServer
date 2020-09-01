@@ -17,6 +17,18 @@ router.post('/create', validateSession, (req, res) => {
         check2: req.body.project.check2,
         check3: req.body.project.check3,
         check4: req.body.project.check4,
+        check5: req.body.project.check5,
+        check6: req.body.project.check6,
+        check7: req.body.project.check7,
+        check8: req.body.project.check8,
+        check1Note: req.body.project.check1Note,
+        check2Note: req.body.project.check2Note,
+        check3Note: req.body.project.check3Note,
+        check4Note: req.body.project.check4Note,
+        check5Note: req.body.project.check5Note,
+        check6Note: req.body.project.check6Note,
+        check7Note: req.body.project.check7Note,
+        check8Note: req.body.project.check8Note,
         author: req.user.username,
         owner: req.user.id
     }
