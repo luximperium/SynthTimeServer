@@ -7,11 +7,25 @@ const Users = require('../db').import('../models/users');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-
 //Practice route for testing
 router.get('/practice', function(req, res){
     res.send('Hey!! This is a user practice route!')
 })
+
+router.get('/:username', function (req, res) {
+    let username = req.params.username;
+    Users.findAll({
+        where: {username: username}
+    })
+    .then(username => res.status(200).json(username))
+    .catch(err => res.status(500).json({ error: err }))
+});
+
+router.get('/myprofile/me', function (req, res) {
+    Users.findByPk(jwt.decode(req.headers.authorization).id)
+    .then((userinfo) => {res.status(200).json(userinfo)})
+    .catch(err => res.status(500).json({ error: err }))
+});
 
 //Register User Route
 router.post('/register', function (req, res) {
@@ -22,8 +36,6 @@ router.post('/register', function (req, res) {
         password: bcrypt.hashSync(req.body.user.password, 13),
         firstName: req.body.user.firstName,
         lastName: req.body.user.lastName,
-        biography: req.body.user.biography,
-        profilePicSrc: req.body.user.profilePicSrc,
     }) .then (
         function createSuccess(users) {
             let token = jwt.sign({id: users.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
@@ -36,6 +48,30 @@ router.post('/register', function (req, res) {
         })
         .catch(err => res.status(500).json({ error: err })); 
 });
+
+router.put('/updateprofile/bio', function (req, res) {
+    const updateBio = {
+        biography: req.body.user.biography,
+    };
+
+    const query = { where : { id: jwt.decode(req.body.user.sessiontoken).id}};
+
+    Users.update(updateBio, query)
+    .then((bio) => res.status(200).json({bio: bio, message: "Profile Bio Successfully Updated!"}))
+    .catch((err) => res.status(500).json({ error: err }));
+})
+
+router.put('/updateprofile/pic', function (req, res) {
+    const updateprofilePicSrc = {
+        profilePicSrc: req.body.user.profilePicSrc,
+    };
+
+    const query = { where : { id: jwt.decode(req.body.user.sessiontoken).id}};
+
+    Users.update(updateprofilePicSrc, query)
+    .then((profilePicSrc) => {res.status(200).json({profilePicSrc: profilePicSrc, message: "Profile Picture Successfully Updated!"})})
+    .catch((err) => res.status(500).json({ error: err }));
+})
 
 //Login User Route
 router.post('/login', function(req, res) {

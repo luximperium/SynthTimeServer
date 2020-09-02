@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('synthtime', 'postgres', process.env.PASS, {
     host: 'localhost',
-    dialect: 'postgres'
+    dialect: 'postgres',
 });
 
 sequelize.authenticate().then(
