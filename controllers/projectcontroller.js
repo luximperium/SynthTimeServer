@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 let validateSession = require('../middleware/validate-session');
-
+const jwt = require('jsonwebtoken');
 const project = require('../db').import('../models/project');
 
 //Practice route for testing
@@ -66,22 +66,39 @@ router.get('/', function (req, res) {
 })
 
 //Updating a project - works
-router.put('/:id', validateSession, function (req, res) {
+router.put('/save/:projectName', validateSession, function (req, res) {
     const updateprojectEntry = {
-        title: req.body.project.title,
-// PUT PROJECT INFO HERE
+        projectName: req.body.project.projectName,
+        check1: req.body.project.check1,
+        check2: req.body.project.check2,
+        check3: req.body.project.check3,
+        check4: req.body.project.check4,
+        check5: req.body.project.check5,
+        check6: req.body.project.check6,
+        check7: req.body.project.check7,
+        check8: req.body.project.check8,
+        check1Note: req.body.project.check1Note,
+        check2Note: req.body.project.check2Note,
+        check3Note: req.body.project.check3Note,
+        check4Note: req.body.project.check4Note,
+        check5Note: req.body.project.check5Note,
+        check6Note: req.body.project.check6Note,
+        check7Note: req.body.project.check7Note,
+        check8Note: req.body.project.check8Note,
+        author: req.user.username,
+        owner: req.user.id
     };
 
-    const query = { where : { id: req.params.id, owner: req.users.id }};
+    const query = { where : { projectName: req.params.projectName }};
 
     project.update(updateprojectEntry, query)
-    .then((project) => res.status(200).json(project))
+    .then((project) => res.status(200).json({message: "Project Successfully Updated!"}))
     .catch((err) => res.status(500).json({ error: err }));
 })
 
 //Deleting a project - works
-router.delete('/delete/:id', validateSession, function (req,res) {
-    const query = {where: { id: req.params.id, owner: req.users.id }};
+router.delete('/delete/:projectName', validateSession, function (req,res) {
+    const query = {where: { projectName: req.params.projectName }};
 
     project.destroy(query)
     .then(() => res.status(200).json({ message: 'Project Removed' }))

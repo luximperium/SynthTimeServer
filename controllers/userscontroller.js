@@ -105,5 +105,11 @@ router.post('/login', function(req, res) {
 
 //})
 
+router.delete('/updateprofile/delete', function (req,res) {
+    const query = {where: { id: jwt.decode(req.headers.authorization).id }};
+    Users.destroy(query)
+    .then(() => res.status(200).json({ message: 'Account Deleted' }))
+    .catch((err) => res.status(500).json({ error: err }));
+})
 
 module.exports = router;
