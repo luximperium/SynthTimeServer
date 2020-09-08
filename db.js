@@ -12,10 +12,10 @@ sequelize.authenticate().then(
     }
 );
 
-let Users = sequelize.import('./models/users');
-let Projects = sequelize.import('./models/project')
+// let Users = sequelize.import('./models/users');
+// let Projects = sequelize.import('./models/project')
 
-Users.hasMany(Projects);
-Projects.belongsTo(Users);
+// Users.hasMany(Projects);
+// Projects.belongsTo(Users);
 
 module.exports = sequelize;

@@ -50,20 +50,14 @@ router.get('/:projectName', function (req, res) {
 //GET all user's projects - works
 router.get('/users/mine', validateSession, function (req, res) {
     
+    console.log(req.user.id)
+
     project.findAll({
         where: { owner: req.user.id }
     })
     .then(projects => res.status(200).json(projects))
     .catch(err => res.status(500).json({ error: err }))
 });
-
-//Get all projects
-router.get('/', function (req, res) {
-
-    project.findAll()
-    .then(projects => res.status(200).json(projects))
-    .catch(err => res.status(500).json({ error: err }))
-})
 
 //Updating a project - works
 router.put('/save/:projectName', validateSession, function (req, res) {
